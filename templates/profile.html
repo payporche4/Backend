@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Profile |{% endblock %}
+
+
+{% block content %}
+<div class="row">
+	<div class="container">
+		<h2></a></h2>
+		{% if profile.user != request.user %}
+		<h4><a href="{% url 'chatroom' profile.user.username %}">message</a></h4>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}

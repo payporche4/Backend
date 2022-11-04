@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{userroom.user.username}}{% endblock %}
+
+{% block content %}
+<h4 class="mt-4" align="center">logged in: {{request.user.username}}</h4>
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-bordered">
+                    <div class="card-header">
+                        <h4 class="card-title"><strong>{{userroom.user.username}}</strong></h4>
+                    </div>
+                    <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+                        <div id="media-chat" class="media media-chat">
+                           {% for message in messages %}
+                            {% if message.sender == request.user.username %}
+                            <tr>
+                                <td>
+                                    <p align="right" class="bg-success p-2 mt-2 mr-5 shadow-sm float-right text-white  rounded">
+                                        <span style="background: blue;color: white; height: 20px; border-radius:5px;">{{message.message}}</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>
+                                    <p align="left" class="bg-primary p-2 mt-2 mr-5 shadow-sm float-left text-white rounded">
+                                        <span style="background: skyblue;color: white; height: 20px; border-radius: 5px;">{{message.message}}</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                            <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                        </div>
+                        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+                            <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+                        </div>
+                    </div>
+                    <div class="publisher bt-1 border-light"> <input class="publisher-input" id="message_input" type="text" placeholder="Write something"> <span class="publisher-btn file-group"> <i class="fa fa-paperclip file-browser"></i> <input type="file"> </span> <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a> <button id="chat-message-submit" class="btn btn-small">Send</button> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{userroom.id | json_script:"json-userroom"}}
+
+{{request.user.username | json_script:"json-message-username"}}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock %}
